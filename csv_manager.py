@@ -41,7 +41,7 @@ class CSVManager():
         
         self.set_overwrite(i_overwrite)
         
-        if i_overwrite:
+        if i_overwrite and os.path.exists(i_filename):
             os.remove(i_filename)
         
     def does_file_exist(self):
