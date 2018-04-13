@@ -60,8 +60,8 @@ class CSVManager():
             
             for row in spamreader:
                 ret.append(row)
-
-        return ret[:-1]
+                                
+        return ret[1:]
         
     def write_row(self, row):
             
