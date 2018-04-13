@@ -90,7 +90,7 @@ class Logger:
 
         return self.logger_name
         
-    def create_name_from_filename(self, i_filename):
+    def create_logger_filename_from_string(self, i_filename):
     
         return basename(i_filename).split('.')[0] + '.log'
 
