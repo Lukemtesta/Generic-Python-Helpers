@@ -3,6 +3,10 @@ csv_manager.py
 
 Python CSV reader and writer
 
+Dependencies:
+
+Python 3.0+
+
 Licensed to the Apache Software Foundation (ASF) under one
 or more contributor license agreements.  See the NOTICE file
 distributed with this work for additional information
@@ -37,6 +41,13 @@ class CSVManager():
         
         self.set_overwrite(i_overwrite)
         
+        if i_overwrite:
+            os.remove(i_filename)
+        
+    def does_file_exist(self):
+    
+        return os.path.exists(self.filename)
+        
     def read(self):
     
         ret = []
@@ -53,8 +64,8 @@ class CSVManager():
         return ret[:-1]
         
     def write_row(self, row):
-        
-        with open(self.filename, self.write_mode) as csvfile:
+            
+        with open(self.filename, self.write_mode, newline='') as csvfile:
             spamwriter = csv.writer(
             csvfile, 
             delimiter=self.delimiter, 
@@ -64,8 +75,9 @@ class CSVManager():
             spamwriter.writerow( row )
             
     def set_overwrite(self, i_overwrite):
-    
-        self.write_mode = 'a'
+        
+        # work around new line carriage return for windows
+        self.write_mode = 'a' 
         if i_overwrite:
             self.write_mode = 'w'
 
