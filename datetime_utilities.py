@@ -65,3 +65,10 @@ Calculate the difference between two timestamps in minutes
 def compare_time_hours(i_time_end, i_time_start):
 
     return compare_time_minutes(i_time_end, i_time_start) / 60
+    
+'''
+Convert unix time to datetime
+'''
+def unix_to_datetime(i_unix_time):
+
+    return datetime.datetime.utcfromtimestamp(i_unix_time).strftime('%Y-%m-%d %H:%M:%S')
