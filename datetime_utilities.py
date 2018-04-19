@@ -60,6 +60,20 @@ def compare_time_minutes(i_time_start, i_time_end):
     return compare_time_seconds(i_time_start, i_time_end) / 60
     
 '''
+Add two timestamps 
+'''
+def add_time(i_time_a, i_time_b):
+
+    return datetime.datetime.combine(i_time_a, i_time_b)
+    
+'''
+Add seconds to timestamp
+'''
+def add_time_seconds(i_time, i_seconds):
+
+    return i_time + datetime.timedelta(seconds=i_seconds)
+    
+'''
 Calculate the difference between two timestamps in minutes
 '''   
 def compare_time_hours(i_time_start, i_time_end):
