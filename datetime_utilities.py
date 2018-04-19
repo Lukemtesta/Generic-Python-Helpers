@@ -47,17 +47,17 @@ def string_to_timestamp(i_timestamp):
 '''
 Calculate the difference between two timestamps in seconds
 '''   
-def compare_time_seconds(i_time_start, i_time_end):
+def compare_time_seconds(i_time_end, i_time_start):
 
-    delta = i_time_end - i_time_start
+    delta = i_time_start - i_time_end
     return (60*60*24 - delta.seconds)
     
 '''
 Calculate the difference between two timestamps in minutes
 '''   
-def compare_time_minutes(i_time_start, i_time_end):
+def compare_time_minutes(i_time_end, i_time_start):
 
-    return compare_time_seconds(i_time_start, i_time_end) / 60
+    return compare_time_seconds(i_time_end, i_time_start) / 60
     
 '''
 Add two timestamps 
@@ -76,6 +76,13 @@ def add_time_seconds(i_time, i_seconds):
 '''
 Calculate the difference between two timestamps in minutes
 '''   
-def compare_time_hours(i_time_start, i_time_end):
+def compare_time_hours(i_time_end, i_time_start):
 
-    return compare_time_minutes(i_time_start, i_time_end) / 60
+    return compare_time_minutes(i_time_end, i_time_start) / 60
+    
+'''
+Convert unix time to datetime
+'''
+def unix_to_datetime(i_unix_time):
+
+    return datetime.datetime.utcfromtimestamp(i_unix_time).strftime('%Y-%m-%d %H:%M:%S')
