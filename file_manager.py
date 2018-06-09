@@ -33,7 +33,7 @@ class FileManager():
 
         return self.data
         
-    def write_row(self, row):
+    def write(self, row):
         
         with open(self.filename, self.write_mode) as file:
             self.data.append(row)
