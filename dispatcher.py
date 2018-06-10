@@ -1,29 +1,14 @@
 '''
 dispatcher.py
 
+License: https://www.binpress.com/license/view/l/89b074d75c23539f3ad7fd68da6fc07e
+
 General command dispatcher
-
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
 '''
 
 from collections import namedtuple
 
-from logger import Logger
+from common.logger import Logger
 
 
 '''
@@ -84,8 +69,22 @@ class Dispatcher:
     '''
     def replace(self, i_key, i_fnc, *i_args):
     
-        self.commands[i_key] = Command(i_fnc, i_args)
-        global_logger.log('Replace with command[', i_key, ']:', self.commands[i_key])
+        self.commands[i_key] = [ Command(i_fnc, i_args) ]
+        global_logger.log('Replacing with command[', i_key, ']:', self.commands[i_key])
+        
+    '''
+    Append key with new input command
+    '''
+    def append(self, i_key, i_fnc, *i_args):
+    
+        command = Command(i_fnc, i_args) 
+    
+        if not self.exists(i_key):
+            self.commands[i_key] = [ command ]
+        else:
+            self.commands[i_key].append( command )
+        
+        global_logger.log('Appending with command[', i_key, ']:', self.commands[i_key])
         
     '''
     Invoke binded function
@@ -95,15 +94,16 @@ class Dispatcher:
         ret = None
     
         if self.exists(i_key):
-            dispatch = self.commands[i_key]
+
+            for dispatch in self.commands[i_key]:
             
-            global_logger.log(
-            'Executing command[', 
-            i_key,
-            ']:',
-            dispatch)
+                global_logger.log(
+                'Executing command[', 
+                i_key,
+                ']:',
+                dispatch)
             
-            ret = dispatch.command( *dispatch.parameters )
+                ret = ret and dispatch.command( *dispatch.parameters )
         else:
             global_logger.log('Command[', i_key, '] not recognised. Register before executing. ')
             
