@@ -8,7 +8,7 @@ General command dispatcher
 
 from collections import namedtuple
 
-from common.logger import Logger
+from logger import Logger
 
 
 '''
