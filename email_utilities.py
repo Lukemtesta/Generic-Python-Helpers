@@ -1,13 +1,28 @@
 '''
 email_utilities.py
 
-License: https://www.binpress.com/license/view/l/89b074d75c23539f3ad7fd68da6fc07e
+General email operations with setup web server
 
 Python dependencies
 
 pip install imaplib email
 
-General email utilities for managing mailbox and emails
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
 '''
 
 import os
@@ -30,11 +45,9 @@ from logger import Logger
 '''
 Global definitions
 '''
-TARGET_DOMAIN   = "@gmail.com"
-TARGET_EMAIL    = "olliebot86979" + TARGET_DOMAIN
-TARGET_PWD      = "realfeel4096"
+TARGET_DOMAIN   = '@gmail.com'
 
-SMTP_RX_SERVER  = "imap.gmail.com"
+SMTP_RX_SERVER  = 'imap.gmail.com'
 SMTP_RX_PORT    = 993
 SMTP_TX_SERVER  = 'smtp.gmail.com'
 SMTP_TX_PORT    = 587
