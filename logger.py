@@ -1,28 +1,13 @@
 '''
 logger.py
 
+License: https://www.binpress.com/license/view/l/89b074d75c23539f3ad7fd68da6fc07e
+
 Logger class for console and file
 
 Python dependencies:
 
 logger
-
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
 '''
 
 import sys
@@ -90,7 +75,7 @@ class Logger:
 
         return self.logger_name
         
-    def create_logger_filename_from_string(self, i_filename):
+    def create_name_from_filename(self, i_filename):
     
         return basename(i_filename).split('.')[0] + '.log'
 

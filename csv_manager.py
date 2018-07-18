@@ -1,28 +1,9 @@
 '''
 csv_manager.py
 
+License: https://www.binpress.com/license/view/l/89b074d75c23539f3ad7fd68da6fc07e
+
 Python CSV reader and writer
-
-Dependencies:
-
-Python 3.0+
-
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
 '''
 
 import csv
@@ -41,13 +22,6 @@ class CSVManager():
         
         self.set_overwrite(i_overwrite)
         
-        if i_overwrite and os.path.exists(i_filename):
-            os.remove(i_filename)
-        
-    def does_file_exist(self):
-    
-        return os.path.exists(self.filename)
-        
     def read(self):
     
         ret = []
@@ -60,12 +34,12 @@ class CSVManager():
             
             for row in spamreader:
                 ret.append(row)
-                                
-        return ret[1:]
+
+        return ret[:-1]
         
     def write_row(self, row):
-            
-        with open(self.filename, self.write_mode, newline='') as csvfile:
+        
+        with open(self.filename, self.write_mode) as csvfile:
             spamwriter = csv.writer(
             csvfile, 
             delimiter=self.delimiter, 
@@ -75,9 +49,8 @@ class CSVManager():
             spamwriter.writerow( row )
             
     def set_overwrite(self, i_overwrite):
-        
-        # work around new line carriage return for windows
-        self.write_mode = 'a' 
+    
+        self.write_mode = 'a'
         if i_overwrite:
             self.write_mode = 'w'
 

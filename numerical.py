@@ -1,24 +1,9 @@
 '''
 Numerical.py
 
+License: https://www.binpress.com/license/view/l/89b074d75c23539f3ad7fd68da6fc07e
+
 General maths library
-
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
 '''
 
 import math
@@ -30,7 +15,7 @@ Round down to N decimal places
 def floor_decimals(i_value, i_sig_fig):
     
     assert(i_sig_fig >= 1)
-    coeff = 10 * i_sig_fig
+    coeff = math.pow(10, i_sig_fig)
     
     if coeff == 0:
         return 0
@@ -43,7 +28,7 @@ Round up to N decimal places
 def ceil_decimals(i_value, i_sig_fig):
     
     assert(i_sig_fig >= 1)
-    coeff = 10 * i_sig_fig
+    coeff = math.pow(10, i_sig_fig)
     
     if coeff == 0:
         return 0

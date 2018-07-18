@@ -1,28 +1,13 @@
 '''
 email_utilities.py
 
-General email operations with setup web server
+License: https://www.binpress.com/license/view/l/89b074d75c23539f3ad7fd68da6fc07e
 
 Python dependencies
 
 pip install imaplib email
 
-Licensed to the Apache Software Foundation (ASF) under one
-or more contributor license agreements.  See the NOTICE file
-distributed with this work for additional information
-regarding copyright ownership.  The ASF licenses this file
-to you under the Apache License, Version 2.0 (the
-"License"); you may not use this file except in compliance
-with the License.  You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing,
-software distributed under the License is distributed on an
-"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-KIND, either express or implied.  See the License for the
-specific language governing permissions and limitations
-under the License.
+General email utilities for managing mailbox and emails
 '''
 
 import os
@@ -45,9 +30,11 @@ from logger import Logger
 '''
 Global definitions
 '''
-TARGET_DOMAIN   = '@gmail.com'
+TARGET_DOMAIN   = "@gmail.com"
+TARGET_EMAIL    = "olliebot86979" + TARGET_DOMAIN
+TARGET_PWD      = "realfeel4096"
 
-SMTP_RX_SERVER  = 'imap.gmail.com'
+SMTP_RX_SERVER  = "imap.gmail.com"
 SMTP_RX_PORT    = 993
 SMTP_TX_SERVER  = 'smtp.gmail.com'
 SMTP_TX_PORT    = 587
@@ -68,9 +55,9 @@ EmailContents = namedtuple("Email", "address subject message")
 '''
 Authenticate email with web server
 '''
-def open_mailbox(
-i_from_email, 
-i_from_pwd,
+def open_mailbox( 
+i_from_email = TARGET_EMAIL, 
+i_from_pwd = TARGET_PWD,
 i_smtp_server = SMTP_RX_SERVER):
 
     try:
@@ -217,8 +204,8 @@ Send email with optional attachments
 '''
 def send_mail(
 i_send_to, 
+i_message, 
 i_subject = '', 
-i_message = '', 
 i_filename = None, 
 i_send_from = SENDER_EMAIL,
 i_sender_pwd = SENDER_PWD):
@@ -248,7 +235,6 @@ i_sender_pwd = SENDER_PWD):
     text = msg.as_string()
     server.sendmail(i_send_from, i_send_to, text)
     server.quit()
-    
    
 '''
 Send report to author via email
@@ -257,3 +243,5 @@ def send_report(i_log_name, i_email, i_report_desc = 'Crash Report'):
 
     global_logger.log('Sending', i_report_desc, 'to', i_email)
     send_mail(i_email, str(datetime.datetime.now()), i_report_desc, i_log_name)
+    
+    
