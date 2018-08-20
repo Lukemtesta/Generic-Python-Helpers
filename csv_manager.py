@@ -34,10 +34,10 @@ Generic CSV file handler
 '''
 class CSVManager():
 
-    def __init__(self, i_filename, i_overwrite = False, i_encoding = 'utf8'):
+    def __init__(self, i_filename, i_overwrite = False, i_encoding = 'utf8', i_delimiter = ','):
     
         self.filename = i_filename
-        self.delimiter = ','
+        self.delimiter = i_delimiter
 		self.encoding = i_encoding
         
         self.set_overwrite(i_overwrite)
