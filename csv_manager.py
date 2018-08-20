@@ -46,6 +46,7 @@ class CSVManager():
             os.remove(i_filename)
 			
 		self.data = self.read()
+		self.lineptr = len(self.data)
         
     def does_file_exist(self):
     
@@ -104,6 +105,11 @@ class CSVManager():
 	def write_row_cache(self, i_row):
             
         self.data.append(i_row)
+		
+	def clear_row_cache(self):
+	
+		self.lineptr = 0
+		self.data = []
             
     def set_overwrite(self, i_overwrite):
         
@@ -114,13 +120,13 @@ class CSVManager():
 			
 	def update_file_buffer(self):
     
-        # clean old file
+		overwrite = self.overwrite
         self.set_overwrite(False)
-        
-        self.write_row(self.headers)
-                
-        for data in self.data:
+		
+        for data in self.data[self.lineptr:]:
             self.write_row(data)
+			
+		self.set_overwrite(overwrite)
                     
     def get_filename(self):
     
