@@ -41,37 +41,89 @@ class CSVManager():
         
         self.set_overwrite(i_overwrite)
         
-    def read(self):
+        if i_overwrite and os.path.exists(i_filename):
+            os.remove(i_filename)
+			
+		self.data = self.read()
+        
+    def does_file_exist(self):
+    
+        return os.path.exists(self.filename)
+        
+    def is_file(self):
+    
+        return os.path.isfile(self.filename)
+        
+    def read_row(self, i_index):
+                
+        return [ row[i_index] for row in self.read() ]
+        
+    def read_formatted(self):
     
         ret = []
-        
+                
         if not os.path.isfile(self.filename):
             return ret
     
-        with open(self.filename, 'r') as csvfile:
+        with open(self.filename, 'r', encoding="utf8") as csvfile:
+            spamreader = csv.reader(csvfile, delimiter=self.delimiter, quotechar='|')
+            
+            for row in spamreader:
+                ret.append(row.split(self.delimiter))
+                                
+        return ret[1:]
+        
+    def read(self):
+    
+        ret = []
+                
+        if not os.path.isfile(self.filename):
+            return ret
+    
+        with open(self.filename, 'r', encoding="utf8") as csvfile:
             spamreader = csv.reader(csvfile, delimiter=self.delimiter, quotechar='|')
             
             for row in spamreader:
                 ret.append(row)
-
-        return ret[:-1]
+                                
+        return ret[1:]
         
-    def write_row(self, row):
-        
-        with open(self.filename, self.write_mode) as csvfile:
+    def write_row(self, i_row):
+            
+        with open(self.filename, self.write_mode, newline='') as csvfile:
             spamwriter = csv.writer(
             csvfile, 
             delimiter=self.delimiter, 
             quotechar='|', 
             quoting=csv.QUOTE_MINIMAL)
             
-            spamwriter.writerow( row )
+            spamwriter.writerow( i_row )
+			self.data.append(i_row)
+			
+	def write_row_cache(self, i_row):
+            
+        self.data.append(i_row)
             
     def set_overwrite(self, i_overwrite):
-    
-        self.write_mode = 'a'
+        
+        # work around new line carriage return for windows
+        self.write_mode = 'a' 
         if i_overwrite:
             self.write_mode = 'w'
+			
+	def update_file_buffer(self):
+    
+        # clean old file
+        self.set_overwrite(False)
+        
+        self.write_row(self.headers)
+                
+        for data in self.data:
+            self.write_row(data)
+                    
+    def get_filename(self):
+    
+        return self.filename
 
     def show(self):
     
