@@ -118,7 +118,7 @@ class CSVManager():
         if i_overwrite:
             self.write_mode = 'w'
 			
-	def update_file_buffer(self):
+	def update_file_buffer_with_cache(self):
     
 		overwrite = self.overwrite
         self.set_overwrite(False)
