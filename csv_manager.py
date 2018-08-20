@@ -34,10 +34,11 @@ Generic CSV file handler
 '''
 class CSVManager():
 
-    def __init__(self, i_filename, i_overwrite = False):
+    def __init__(self, i_filename, i_overwrite = False, i_encoding = 'utf8'):
     
         self.filename = i_filename
         self.delimiter = ','
+		self.encoding = i_encoding
         
         self.set_overwrite(i_overwrite)
         
@@ -80,7 +81,7 @@ class CSVManager():
         if not os.path.isfile(self.filename):
             return ret
     
-        with open(self.filename, 'r', encoding="utf8") as csvfile:
+        with open(self.filename, 'r', encoding=self.encoding) as csvfile:
             spamreader = csv.reader(csvfile, delimiter=self.delimiter, quotechar='|')
             
             for row in spamreader:
