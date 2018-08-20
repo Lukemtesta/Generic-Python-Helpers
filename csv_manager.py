@@ -38,15 +38,16 @@ class CSVManager():
     
         self.filename = i_filename
         self.delimiter = i_delimiter
-		self.encoding = i_encoding
+        self.encoding = i_encoding
+        self.overwrite = i_overwrite
         
         self.set_overwrite(i_overwrite)
         
         if i_overwrite and os.path.exists(i_filename):
             os.remove(i_filename)
-			
-		self.data = self.read()
-		self.lineptr = len(self.data)
+            
+        self.data = self.read()
+        self.lineptr = len(self.data)
         
     def does_file_exist(self):
     
@@ -91,6 +92,15 @@ class CSVManager():
         return ret[1:]
         
     def write_row(self, i_row):
+    
+        overwrite = self.overwrite
+        dir = os.path.dirname(self.filename)
+        
+        if not os.path.exists(dir):
+            os.makedirs(dir)
+        
+        if not os.path.exists(self.filename):
+            self.set_overwrite(True)
             
         with open(self.filename, self.write_mode, newline='') as csvfile:
             spamwriter = csv.writer(
@@ -100,33 +110,37 @@ class CSVManager():
             quoting=csv.QUOTE_MINIMAL)
             
             spamwriter.writerow( i_row )
-			self.data.append(i_row)
-			
-	def write_row_cache(self, i_row):
+            self.data.append(i_row)
+            
+        self.set_overwrite(overwrite)
+            
+    def write_row_cache(self, i_row):
             
         self.data.append(i_row)
-		
-	def clear_row_cache(self):
-	
-		self.lineptr = 0
-		self.data = []
+        
+    def clear_row_cache(self):
+    
+        self.lineptr = 0
+        self.data = []
             
     def set_overwrite(self, i_overwrite):
+        
+        self.overwrite = i_overwrite
         
         # work around new line carriage return for windows
         self.write_mode = 'a' 
         if i_overwrite:
             self.write_mode = 'w'
-			
-	def update_file_buffer(self):
+            
+    def update_file_buffer(self):
     
-		overwrite = self.overwrite
+        overwrite = self.overwrite
         self.set_overwrite(False)
-		
+        
         for data in self.data[self.lineptr:]:
             self.write_row(data)
-			
-		self.set_overwrite(overwrite)
+            
+        self.set_overwrite(overwrite)
                     
     def get_filename(self):
     
