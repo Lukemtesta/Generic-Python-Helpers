@@ -28,6 +28,14 @@ under the License.
 import csv
 import os.path
 
+from log import Logger
+
+
+'''
+Global definitions
+'''
+global_logger = Logger(__file__)
+
 
 '''
 Generic CSV file handler
@@ -63,18 +71,9 @@ class CSVManager():
         
     def read_formatted(self):
     
-        ret = []
-                
-        if not os.path.isfile(self.filename):
-            return ret
-    
-        with open(self.filename, 'r', encoding="utf8") as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=self.delimiter, quotechar='|')
-            
-            for row in spamreader:
-                ret.append(row.split(self.delimiter))
-                                
-        return ret[1:]
+        rows = self.read()
+        
+        return [row.split(self.delimiter) for row in rows]
         
     def read(self):
     
@@ -84,20 +83,24 @@ class CSVManager():
             return ret
     
         with open(self.filename, 'r', encoding=self.encoding) as csvfile:
-            spamreader = csv.reader(csvfile, delimiter=self.delimiter, quotechar='|')
+            spamreader = csv.reader(csvfile, delimiter=self.delimiter)
             
             for row in spamreader:
                 ret.append(row)
                                 
         return ret[1:]
         
-    def write_row(self, i_row):
+    def verify_dir(self):
     
-        overwrite = self.overwrite
         dir = os.path.dirname(self.filename)
-        
-        if not os.path.exists(dir):
+
+        if not os.path.exists(dir) and dir:
             os.makedirs(dir)
+        
+    def write_rows(self, i_rows):
+    
+        self.verify_dir()
+        overwrite = self.overwrite
         
         if not os.path.exists(self.filename):
             self.set_overwrite(True)
@@ -109,12 +112,16 @@ class CSVManager():
             quotechar='|', 
             quoting=csv.QUOTE_MINIMAL)
             
-            spamwriter.writerow( i_row )
-            self.data.append(i_row)
+            spamwriter.writerows( i_rows )
+                                    
+        [ self.data.append(row) for row in i_rows ]
             
         self.set_overwrite(overwrite)
             
     def write_row_cache(self, i_row):
+    
+        if not isinstance(i_row, list):
+            i_row = [i_row]
             
         self.data.append(i_row)
         
@@ -137,8 +144,7 @@ class CSVManager():
         overwrite = self.overwrite
         self.set_overwrite(False)
         
-        for data in self.data[self.lineptr:]:
-            self.write_row(data)
+        self.write_rows(self.data[self.lineptr:])
             
         self.set_overwrite(overwrite)
                     
@@ -155,7 +161,6 @@ class CSVManager():
     
         show(ret)
                 
-        
     def get_headers(self):
     
         ret = self.read()
