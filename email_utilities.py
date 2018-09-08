@@ -68,9 +68,9 @@ EmailContents = namedtuple("Email", "address subject message")
 '''
 Authenticate email with web server
 '''
-def open_mailbox(
-i_from_email, 
-i_from_pwd,
+def open_mailbox( 
+i_from_email = TARGET_EMAIL, 
+i_from_pwd = TARGET_PWD,
 i_smtp_server = SMTP_RX_SERVER):
 
     try:
@@ -217,8 +217,8 @@ Send email with optional attachments
 '''
 def send_mail(
 i_send_to, 
+i_message, 
 i_subject = '', 
-i_message = '', 
 i_filename = None, 
 i_send_from = SENDER_EMAIL,
 i_sender_pwd = SENDER_PWD):
@@ -248,7 +248,6 @@ i_sender_pwd = SENDER_PWD):
     text = msg.as_string()
     server.sendmail(i_send_from, i_send_to, text)
     server.quit()
-    
    
 '''
 Send report to author via email
@@ -257,3 +256,5 @@ def send_report(i_log_name, i_email, i_report_desc = 'Crash Report'):
 
     global_logger.log('Sending', i_report_desc, 'to', i_email)
     send_mail(i_email, str(datetime.datetime.now()), i_report_desc, i_log_name)
+    
+    

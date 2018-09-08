@@ -8,7 +8,7 @@ General command dispatcher
 
 from collections import namedtuple
 
-from common.logger import Logger
+from logger import Logger
 
 
 '''
@@ -91,7 +91,7 @@ class Dispatcher:
     '''
     def execute(self, i_key):
     
-        ret = True
+        ret = []
     
         if self.exists(i_key):
 
@@ -103,7 +103,7 @@ class Dispatcher:
                 ']:',
                 dispatch)
             
-                ret = ret and dispatch.command( *dispatch.parameters )
+                ret.append(dispatch.command( *dispatch.parameters ))
         else:
             global_logger.log('Command[', i_key, '] not recognised. Register before executing. ')
             
